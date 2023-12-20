@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'screens/home.dart';
+import '../data/dummy_data.dart';
 
 void main() {
   runApp(const MyApp());
@@ -22,7 +23,7 @@ class MyApp extends StatelessWidget {
         ),
         scaffoldBackgroundColor: const Color.fromARGB(255, 50, 58, 60),
       ),
-      home: const HomeScreen(),
+      home: HomeScreen(groceryItems: groceryItems),
     );
   }
 }
