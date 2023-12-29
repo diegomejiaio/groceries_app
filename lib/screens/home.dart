@@ -1,66 +1,46 @@
 import 'package:flutter/material.dart';
+import 'package:groceries_app/widgets/grocery_list.dart';
+import 'package:groceries_app/screens/new_item.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key, required this.groceryItems});
   final List groceryItems;
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  void _addItem(BuildContext context) {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => const NewItem(),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Groceries App'),
+        actions: [
+          IconButton(
+            onPressed: () => _addItem(context),
+            icon: const Icon(Icons.add),
+          ),
+        ],
       ),
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: ListView.builder(
-            itemCount: groceryItems.length,
-            itemBuilder: (ctx, index) {
-              final groceryItem = groceryItems[index];
-              return Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  children: [
-                    Container(
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          color: groceryItem.category.color,
-                          width: 2,
-                        ),
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: const Padding(
-                        padding: EdgeInsets.all(8),
-                        child: Icon(
-                          Icons.check,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(width: 16),
-                    Expanded(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            groceryItem.name,
-                            style: const TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          Text(
-                            '${groceryItem.quantity} ${groceryItem.category.name}',
-                            style: const TextStyle(
-                              fontSize: 16,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              );
-            },
+        child: Center(
+          child: Container(
+            constraints: const BoxConstraints(
+              maxWidth: 880,
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: GroceryList(groceryItems: widget.groceryItems),
+            ),
           ),
         ),
       ),
